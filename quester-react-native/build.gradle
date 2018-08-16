@@ -1,7 +1,11 @@
 plugins {
     id 'kotlin-platform-js' version '1.2.60'
 }
+
+apply plugin: 'kotlin-dce-js'
+
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -9,4 +13,33 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js"
     expectedBy project(":quester-common")
     testCompile "org.jetbrains.kotlin:kotlin-test-js"
+}
+
+task assembleWeb(type: Sync) {
+    configurations.compile.each { File file ->
+        from(zipTree(file.absolutePath), {
+            includeEmptyDirs = false
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") ||
+                        !path.startsWith("META-INF/"))
+            }
+        })
+    }
+    from compileKotlin2Js.destinationDir
+    into "${projectDir}/web"
+
+    dependsOn classes
+}
+
+assemble.dependsOn assembleWeb
+
+compileKotlin2Js {
+    kotlinOptions {
+        metaInfo = true
+        outputFile = "$project.buildDir.path/js/${project.name}.js"
+        sourceMap = true
+        moduleKind = 'umd'
+        main = "call"
+    }
 }
