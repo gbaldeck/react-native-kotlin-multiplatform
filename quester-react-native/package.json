@@ -2,11 +2,6 @@
   "name": "Quester",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "react-native-scripts": "1.14.0",
-    "jest-expo": "~27.0.0",
-    "react-test-renderer": "16.3.1"
-  },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native-scripts start",
@@ -19,8 +14,16 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@jetbrains/kotlin-extensions": "1.0.1-pre.38",
+    "@jetbrains/kotlin-react": "16.4.2-pre.38",
     "expo": "^27.0.1",
-    "react": "16.3.1",
-    "react-native": "~0.55.2"
+    "kotlin": "1.2.60",
+    "react": "16.4.2",
+    "react-native": "0.55.2"
+  },
+  "devDependencies": {
+    "react-native-scripts": "1.14.0",
+    "jest-expo": "~27.0.0",
+    "react-test-renderer": "16.3.1"
   }
 }

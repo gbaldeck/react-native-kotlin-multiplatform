@@ -4,5 +4,10 @@
     "development": {
       "plugins": ["transform-react-jsx-source"]
     }
-  }
+  },
+  "ignore": [
+    "**/kotlin.js",
+    "**/kotlin-react.js",
+    "**/kotlin-extensions.js"
+  ]
 }
