@@ -28,16 +28,16 @@ compileKotlin2Js {
 
 task doStringReplace{
     doLast {
-        File file = new File( 'node_modules\\@jetbrains\\kotlin-react\\build\\classes\\main\\kotlin-react.js' )
+        File file = new File( 'node_modules/@jetbrains/kotlin-react/build/classes/main/kotlin-react.js' )
         String contents = file.getText( 'UTF-8' )
         contents = contents.replace("require('kotlin-extensions')", "require('@jetbrains/kotlin-extensions')")
         file.write(contents, 'UTF-8')
 
-        file = new File( 'build\\js\\quester-react-native.js')
+        file = new File( 'build/js/quester-react-native.js')
         contents = file.getText('UTF-8')
-        contents = contents.replace('require(\'kotlin-react\')', 'require(\'@jetbrains/kotlin-react\')')
+        contents = contents.replace("require('kotlin-react')", "require('@jetbrains/kotlin-react')")
+        contents = contents.replace("require('kotlin-extensions')", "require('@jetbrains/kotlin-extensions')")
         file.write(contents, 'UTF-8')
-
     }
 }
 
