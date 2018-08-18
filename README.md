@@ -1,6 +1,6 @@
 ## Kotlin with React Native
 
-This project is a multiplatform project designed to get you started with Kotlin, React Native, and whichever Kotlin JVM backend you decide on.
+This repo is a multiplatform project designed to get you started with Kotlin, React Native, and whichever Kotlin JVM backend you decide on.
 
 The `quester-react-native` folder can also be split out and used on its own if you only want to use Kotlin and React Native.
 
