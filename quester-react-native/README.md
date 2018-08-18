@@ -1,7 +1,5 @@
 ## React Native with Kotlin
 
-###Getting Started
-
 Note that this readme assumes you are using IntelliJ. If you're using a different IDE, like Eclipse, or using gradle on the command line, then it may take some modifications to get it working.
 
 First, follow the instructions here to install create react native app: 
