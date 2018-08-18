@@ -1,13 +1,9 @@
 import React from 'react';
 
-const app = require("./build/js/quester-react-native");
+const KotlinApp = require("./build/js/quester-react-native").quester.init();
 
 export default class App extends React.Component {
     render() {
-        return React.createElement(
-            app.quester.init(),
-            null,
-            null
-        );
+        return <KotlinApp />;
     }
 }
