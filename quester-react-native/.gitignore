@@ -8,6 +8,8 @@
 
 /build
 /web
+/libs/**/*.*
+!/libs/**/package.json
 
 # misc
 .env.local

@@ -10,8 +10,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js"
-    compile "org.jetbrains:kotlin-react:16.4.2-pre.38-kotlin-1.2.60"
-    compile "org.jetbrains:kotlin-extensions:1.0.1-pre.38-kotlin-1.2.60"
+    compile "org.jetbrains:kotlin-react:16.4.2-pre.46-kotlin-1.2.60"
+    compile "org.jetbrains:kotlin-extensions:1.0.1-pre.46-kotlin-1.2.60"
     expectedBy project(":quester-common")
     testCompile "org.jetbrains.kotlin:kotlin-test-js"
 }
@@ -26,19 +26,43 @@ compileKotlin2Js {
     }
 }
 
-task doStringReplace{
-    doLast {
-        File file = new File( 'node_modules/@jetbrains/kotlin-react/build/classes/main/kotlin-react.js' )
-        String contents = file.getText( 'UTF-8' )
-        contents = contents.replace("require('kotlin-extensions')", "require('@jetbrains/kotlin-extensions')")
-        file.write(contents, 'UTF-8')
-
-        file = new File( 'build/js/quester-react-native.js')
-        contents = file.getText('UTF-8')
-        contents = contents.replace("require('kotlin-react')", "require('@jetbrains/kotlin-react')")
-        contents = contents.replace("require('kotlin-extensions')", "require('@jetbrains/kotlin-extensions')")
-        file.write(contents, 'UTF-8')
+task installLibsToNpm(type: Sync) {
+    configurations.compile.each { File file ->
+        from(zipTree(file.absolutePath), {
+            includeEmptyDirs = false
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                (path.endsWith(".js") || path.endsWith(".map")) && (path.startsWith("META-INF/resources/") ||
+                        !path.startsWith("META-INF/"))
+            }
+        })
     }
+    from compileKotlin2Js.destinationDir
+    into "${projectDir}/build/js/libs"
+
+    dependsOn classes
 }
 
-build.finalizedBy doStringReplace
+task installKotlin(type: Copy){
+    from "${projectDir}/build/js/libs"
+    into "${projectDir}/libs/kotlin"
+    include "kotlin.*"
+}
+
+
+task installKotlinReact(type: Copy){
+    from "${projectDir}/build/js/libs"
+    into "${projectDir}/libs/kotlin-react"
+    include "kotlin-react.*"
+}
+
+
+task installKotlinExtensions(type: Copy){
+    from "${projectDir}/build/js/libs"
+    into "${projectDir}/libs/kotlin-extensions"
+    include "kotlin-extensions.*"
+}
+
+installLibsToNpm.finalizedBy installKotlin
+installKotlin.finalizedBy installKotlinReact
+installKotlinReact.finalizedBy installKotlinExtensions
